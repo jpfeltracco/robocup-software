@@ -16,6 +16,7 @@ libmpc
 
 qt5-base
 qt5-tools
+qt5-svg
 qwtplot3d
 
 python-pyqt5
