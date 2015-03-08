@@ -109,7 +109,7 @@ const vector<command_t> commands =
 		false,
 		cmd_resetMbed,
 		"resets the mbed (like pushing the reset button)",
-		"reset | reboot"}
+		"reset | reboot"},
 
 	{
 		{"testioexp"},

@@ -41,6 +41,7 @@ if(${BUILD_MCP23017} STREQUAL "true")
     ExternalProject_Add(mcp23017
         HG_REPOSITORY https://developer.mbed.org/users/Nurbol/code/MCP23017/
         HG_TAG default
+	SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/drivers/MCP23017
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND ""
