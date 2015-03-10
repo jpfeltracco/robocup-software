@@ -25,4 +25,4 @@ set(USE_USB false)
 set(USE_DSP false)
 
 #other
-set(BUILD_MCP23017 false)
+set(BUILD_MCP23017 true)

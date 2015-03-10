@@ -20,3 +20,6 @@
 
 # IntelliJ
 .idea
+
+# HG
+.hg/
