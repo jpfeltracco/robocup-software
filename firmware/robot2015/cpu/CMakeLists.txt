@@ -39,6 +39,7 @@ set(PREBUILD_DEPS ${PREBUILD_DEPS} mbed_lib_build_tools)
 #pull DIO breakout
 if(${BUILD_MCP23017} STREQUAL "true")
     ExternalProject_Add(mcp23017
+	DEPENDS mbed_lib_build_tools
         HG_REPOSITORY https://developer.mbed.org/users/Nurbol/code/MCP23017/
         HG_TAG default
 	SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/drivers/MCP23017
@@ -58,11 +59,23 @@ file(GLOB_RECURSE robot2015_SRC
     "*.cpp"
 )
 
+if(${BUILD_MCP23017} STREQUAL "true")
+    #force addition of mcp prior to add executable
+    add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/drivers/MCP23017/MCP23017.cpp
+        COMMAND ""
+        DEPENDS mcp23017
+    )
+    set(robot2015_SRC ${robot2015_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/drivers/MCP23017/MCP23017.cpp)
+endif()
+
 add_executable(robot2015_elf ${robot2015_SRC} ${CMAKE_BINARY_DIR}/common/git_version.cpp ${MBED_OBJECTS})
 target_link_libraries(robot2015_elf ${MBED_LIBS})
 
 # the final product is the .bin file, not the elf one.  We hide this away in the build dir
 set_target_properties(robot2015_elf PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+
+set_target_properties(robot2015_elf PROPERTIES DEPENDS mcp23017)
 
 # only build robot firmware if specifically instructed
 set_target_properties(robot2015_elf PROPERTIES EXCLUDE_FROM_ALL TRUE)
@@ -72,7 +85,8 @@ set_target_properties(robot2015_elf PROPERTIES EXCLUDE_FROM_ALL TRUE)
 #run at the correct time
 add_custom_target(pre-build
     COMMAND python2 ${PY_TOOLS_DIR}/workspace_tools/build.py --mcu=${PY_MCU_OPT} --tool=${PY_TOOLCHAIN_OPT} ${PY_LIBS}
-    DEPENDS ${PREBUILD_DEPS})
+    DEPENDS ${PREBUILD_DEPS}  
+)
 set_target_properties(pre-build PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 # tell CMake that the obj files all come from the ExternalProject
@@ -99,7 +113,6 @@ add_custom_target(robot2015-prog
     DEPENDS robot2015
     COMMENT "Copies the files created by robot2015 into a single mbed"
 )
-
 
 # See common/CMakeLists for more info on how this works
 add_custom_command(

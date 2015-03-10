@@ -21,6 +21,7 @@ pylint:
 clean:
 	cd build && make $(MAKE_FLAGS) clean
 	rm -rf build
+	rm -rf firmware/robot2015/cpu/drivers/MCP23017
 
 # Robot firmware (both 2008/2011)
 robot:
