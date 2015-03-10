@@ -10,7 +10,7 @@ set(PY_LIBS)
 # ------------------------------------------------------------------------------
 # git checkout and build location of mbed libraries
 set(PY_TOOLS_DIR ${CMAKE_CURRENT_BINARY_DIR}/mbed_lib_build_tools-prefix/src/mbed_lib_build_tools)
-set(MCP23017_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/drivers/MCP23017)
+set(MCP23017_SOURCE ${CMAKE_CURRENT_BINARY_DIR}/mcp23017-prefix/src/mcp23017)
 
 #library roots
 set(MBED_PATH          ${PY_TOOLS_DIR}/build/mbed)

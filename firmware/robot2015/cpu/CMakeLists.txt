@@ -42,7 +42,6 @@ if(${BUILD_MCP23017} STREQUAL "true")
 	DEPENDS mbed_lib_build_tools
         HG_REPOSITORY https://developer.mbed.org/users/Nurbol/code/MCP23017/
         HG_TAG default
-	SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/drivers/MCP23017
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND ""
@@ -62,11 +61,11 @@ file(GLOB_RECURSE robot2015_SRC
 if(${BUILD_MCP23017} STREQUAL "true")
     #force addition of mcp prior to add executable
     add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/drivers/MCP23017/MCP23017.cpp
+	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mcp23017-prefix/src/mcp23017/MCP23017.cpp
         COMMAND ""
         DEPENDS mcp23017
     )
-    set(robot2015_SRC ${robot2015_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/drivers/MCP23017/MCP23017.cpp)
+    set(robot2015_SRC ${robot2015_SRC} ${CMAKE_CURRENT_BINARY_DIR}/mcp23017-prefix/src/mcp23017/MCP23017.cpp)
 endif()
 
 add_executable(robot2015_elf ${robot2015_SRC} ${CMAKE_BINARY_DIR}/common/git_version.cpp ${MBED_OBJECTS})

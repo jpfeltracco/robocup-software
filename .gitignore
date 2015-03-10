@@ -4,7 +4,6 @@
 .scons_variables
 /build
 /build-scons
-/firmware/robot2015/cpu/drivers/MCP23017/
 .pydevproject
 /gmon.out
 *.swp
