@@ -141,12 +141,6 @@ base2015:
 base2015-prog:
 	$(call cmake_build_target_fw, base2015-prog)
 
-# kicker 2015 firmware
-kicker2015:
-	mkdir -p build && cd build && cmake --target kicker2015 .. && make $(MAKE_FLAGS) kicker2015
-kicker2015-prog:
-	mkdir -p build && cd build && cmake --target kicker2015-prog .. && make $(MAKE_FLAGS) kicker2015-prog
-
 # Robot FPGA
 fpga2011:
 	cd firmware; scons fpga2011
@@ -194,8 +188,9 @@ STYLE_EXCLUDE_DIRS=build \
 	firmware/robot/cpu/invensense
 # automatically format code according to our style config defined in .clang-format
 pretty:
-	@stylize --diffbase=master --clang_style=file --yapf_style=file --exclude_dirs $(STYLE_EXCLUDE_DIRS)
+	@stylize --diffbase=master --clang_style=file --yapf_style=.style.yapf --exclude_dirs $(STYLE_EXCLUDE_DIRS)
 # check if everything in our codebase is in accordance with the style config defined in .clang-format
 # a nonzero exit code indicates that there's a formatting error somewhere
 checkstyle:
-	@stylize --diffbase=master --clang_style=file --yapf_style=file --exclude_dirs $(STYLE_EXCLUDE_DIRS) --check
+	@printf "Run this command to reformat code if needed:\n\ngit apply <(curl $${LINK_PREFIX:-./}clean.patch)\n\n"
+	@stylize --diffbase=master --clang_style=file --yapf_style=.style.yapf --exclude_dirs $(STYLE_EXCLUDE_DIRS) --check --output_patch_file="$${CIRCLE_ARTIFACTS:-.}/clean.patch"
